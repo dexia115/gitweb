@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd"
+	default-lazy-init="true">
+	<description>Shiro配置</description>
+	
+	<!-- 缓存管理器 -->
+	<bean id="cacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+		<property name="cacheManagerConfigFile" value="classpath:ehcache/ehcache-shiro.xml" />
+	</bean>
+
+	<!-- 凭证匹配器 -->
+	<bean id="credentialsMatcher" class="com.longray.controller.shiro.RetryLimitHashedCredentialsMatcher">
+		<constructor-arg ref="cacheManager" />
+		<property name="hashAlgorithmName" value="${shiro.hashAlgorithmName}" /><!-- 指定了散列算法的名称 -->
+		<property name="hashIterations" value="${shiro.hashIterations}" /><!-- 指定了加密的迭代次数 -->
+		<property name="storedCredentialsHexEncoded" value="${shiro.storedCredentialsHexEncoded}" /><!-- 是否存储散列后的密码为16进制 -->
+	</bean>
+
+	<bean id="shiroRealm" class="com.longray.controller.shiro.ShiroDbRealm">
+		<property name="credentialsMatcher" ref="credentialsMatcher" />
+		<property name="cachingEnabled" value="false" />
+	</bean>
+
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="shiroRealm" />
+		<property name="cacheManager" ref="cacheManager" />
+		<property name="sessionManager" ref="sessionManager"/>
+		<!-- <property name="rememberMeManager" ref="rememberMeManager"/> -->
+	</bean>
+
+	<bean
+		class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+		<property name="securityManager" ref="securityManager" />
+	</bean>
+
+	<bean id="shiro" class="com.longray.controller.shiro.AnyRolesFilter" />
+	<bean id="logoutFilter" class="com.longray.controller.shiro.UserLogoutFilter" />
+	
+	
+	 <!-- 会话ID生成器 -->  
+     <bean id="sessionIdGenerator" class="org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator"></bean>  
+ 
+	<!-- 会话DAO，sessionManager里面的session需要保存在会话Dao里，没有会话Dao，session是瞬时的，没法从  
+     sessionManager里面拿到session -->    
+    <bean id="sessionDAO" class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO">    
+        <property name="sessionIdGenerator" ref="sessionIdGenerator"/>    
+        <property name="activeSessionsCacheName" value="shiro-activeSessionCache"/>  
+    </bean>
+    
+    <bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">    
+        <constructor-arg value="sid"/>
+        <property name="httpOnly" value="true"/>
+        <property name="maxAge" value="-1"/><!-- 表示浏览器关闭时失效此Cookie -->
+    </bean>
+    
+    <bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+	    <constructor-arg value="rememberMe" />
+	    <property name="httpOnly" value="true" />
+	    <property name="maxAge" value="1800" /><!-- 单位秒 -->
+    </bean>
+
+	<!-- rememberMe管理器 -->
+	<bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
+		<property name="cipherKey"
+			value="#{T(org.apache.shiro.codec.Base64).decode('4AvVhmFLUs0KTA3Kprsdag==')}" />
+		<property name="cookie" ref="rememberMeCookie" />
+	</bean> 
+    
+    <!-- 会话验证调度器 -->  
+    <bean id="sessionValidationScheduler" class="org.apache.shiro.session.mgt.ExecutorServiceSessionValidationScheduler ">  
+        <property name="interval" value="120000"/><!-- 定时检验session是否有效（毫秒单位） -->
+        <property name="sessionManager" ref="sessionManager"/>
+    </bean>
+    
+	<bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">    
+        <property name="globalSessionTimeout" value="1800000"/><!-- 单位：毫秒 -->
+        <property name="deleteInvalidSessions" value="true"/>
+        <!-- <property name="sessionDAO" ref="sessionDAO"/>
+        <property name="sessionIdCookieEnabled" value="true"/>
+        <property name="sessionIdCookie" ref="sessionIdCookie"/>
+        <property name="sessionValidationSchedulerEnabled" value="true"/>
+        <property name="sessionValidationScheduler" ref="sessionValidationScheduler"/>
+        <property name="cacheManager" ref="cacheManager"/> -->
+        <property name="sessionListeners" ref="mySessionListener"/>
+    </bean>
+    
+    <bean id="dmpSessionListener" class="com.longray.controller.shiro.DmpSessionListener"/>
+    <bean id="mySessionListener" class="com.longray.controller.shiro.MySessionListener"/> 
+
+	<bean id="kickoutSessionControlFilter" class="com.longray.controller.shiro.KickoutSessionControlFilter">
+	    <property name="sessionManager" ref="sessionManager" />
+	    <property name="cacheManager" ref="cacheManager" />
+	    <property name="kickoutAfter" value="false" /><!-- 踢出之前登录的/之后登录的用户 默认踢出之前登录的用户 -->
+	    <property name="maxSession" value="1" />
+	    <property name="kickoutUrl" value="/login.jsp?params=kickout" />
+    </bean>
+
+
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager" />
+		<property name="loginUrl" value="/login.jsp" />
+		<!-- <property name="successUrl" value="/home" /> -->
+		<property name="unauthorizedUrl" value="/login.jsp" />
+		<property name="filters">
+			<map>
+				<entry key="authc" value-ref="shiro" />
+				<entry key="logout" value-ref="logoutFilter" />
+				<entry key="kickout" value-ref="kickoutSessionControlFilter"/>
+			</map>
+		</property>
+		<property name="filterChainDefinitions">
+			<value>
+				/bootstrap/** = anon
+				/common/** = anon
+				/css/** = anon
+				/images/** = anon
+				/js/** = anon
+				/favicon.ico = anon
+				/logined = anon
+				/login/** = anon
+				/attachment/** = anon
+				/*.jsp = anon
+				/logout = logout
+				/** = authc,kickout
+			</value>
+		</property>
+	</bean>
+</beans>
