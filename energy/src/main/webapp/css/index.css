@@ -1,0 +1,307 @@
+body {
+	font-family: Microsoft YaHei;
+	font-weight: normal;
+}
+h1, h2, h3, h4, h5, h6 {
+	font-family: Microsoft YaHei;
+	font-weight: normal;
+}
+.d_width{
+	width: 98px;
+}
+/*td.operation {
+	position: relative;
+	overflow: auto !important;
+}
+td.operation .dropdown-menu.dropdown-success {
+	position: absolute;
+	left: 51px;
+	top: 40px;
+}*/
+#schoolTable,#classroomTable,#subjectTable{
+	border:#dddddd  solid;
+	border-collapse:collapse;
+	border-width: 1 0  0 1;
+}
+#schoolTable,#classroomTable,#subjectTable td{
+	border:#dddddd  solid;
+	border-width: 0 1 1 0;
+}
+
+
+#subjectDialog .form-group p input[type='radio']{
+	vertical-align: middle;
+	margin: 0;
+}
+#subjectDialog .form-group p span{
+	vertical-align: bottom;
+}
+.text-danger{
+	color:#ff471c!important; 
+}
+#useDetailDiv .table-bordered > thead > tr > th, .table-bordered > tbody > tr > th, .table-bordered > tfoot > tr > th, .table-bordered > thead > tr > td, .table-bordered > tbody > tr > td, .table-bordered > tfoot > tr > td {
+    font-size: 12px;
+	border-bottom: 1px solid #dddddd;
+	border-right: 1px solid #dddddd;
+	vertical-align: middle;
+}
+#setQuestionTable_wrapper{
+	font-size: 12px;
+}
+#setQuestionTable_info{
+	margin-top: 2px;
+}
+input[readonly] {
+color: #939192;
+background: #fff !important;
+cursor: default;
+}
+.table2,.dataTable > thead > tr > th {
+	font-size: 12px;
+}
+.table2,.dataTable > tbody > tr > td {
+	font-size: 12px;
+}
+label,p,span,ul,li{
+	font-size: 12px;
+	list-style: none;
+}
+#dutyselect li{
+	padding: 5px 0;
+}
+#dutyselect li select{
+	padding: 0px 7px;
+	height: 34px;
+	width: 200px;
+}
+select option{
+	border-right:1px solid #877F7F;
+}
+.fright{
+	float: right;
+
+}
+.paddingright0px{
+	padding-right: 10px;
+	float:right;
+}
+#subjectDialog .error{padding-left: 10px;margin-bottom:0 !important;padding-top: 8px;}
+.table {
+	/* table-layout: fixed;
+	word-wrap: break-word; */
+	border-top: 1px solid #ddd;
+	border-left: 1px solid #ddd;
+	border-spacing: 0;
+}
+.sr-box{
+	width: 300px !important;
+	height: 35px;
+}
+
+.table td {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	font-size: 12px;
+	padding: 8px !important;
+	 max-width: 70px;
+}
+.questionPreview tr td {
+	font-size: 12px;
+}
+#unitdialog table{
+	margin: 10px 0;
+}
+#viewDialog{
+	max-height:550px !important;
+	height: auto !important;
+	margin: 10px 20px;
+}
+
+#viewDialog img {
+	max-width: 100%;
+}
+
+p { word-wrap:break-word; word-break:normal; } 
+.page-header {
+	padding-bottom: 5px;
+	font-size: 12px;
+}
+.dataTables_info{
+	font-size: 12px;
+	margin-top: 4px;
+}
+.dataTables_length label{
+	font-size: 12px;
+}
+.dropdown-preview {
+	margin: 0 5px;
+	display: inline-block;
+}
+
+.dropdown-preview > .dropdown-menu {
+	display: block;
+	position: static;
+	margin-bottom: 5px;
+}
+
+.contrightbox {
+	height: 97%;
+	overflow: hidden;
+	float: left;
+	border: 1px solid #99BBE7;
+	width: 98%
+}
+
+.courseLi {
+	background: #4f99c6;
+	color: #fff;
+}
+.courseLi2 {
+	background: #4f99c6;
+	color: #fff;
+}
+.courseLi3 {
+	background: #4f99c6;
+	color: #fff;
+}
+
+/**
+ 不显示datatable搜索框
+ **/
+.dataTables_filter {
+	display: none
+}
+
+ul.pagination {
+	width: 561px !important;
+}
+.dataTables_paginate {
+	text-align: left;
+}
+.dataTables_length {
+	text-align: right;
+}
+
+table, table tr td {
+	/* border: 1px #DCEBF7 solid */;
+	vertical-align: middle;
+}
+.error {
+	color: red;
+	padding-top: 8px;
+}
+.boxmainheader {
+	color: #fff;
+}
+
+/* .ui-tabs .ui-tabs-nav li{
+	width:150px;
+} */
+.ui-tabs-anchor{
+	min-width:100px;
+	text-align: center;
+}
+.ace-file-container{
+	width:300px !important;
+}
+.ace-file-input{
+	width:310px !important;
+}
+.fa-cloud-upload{
+	display:none !important;
+}
+
+.no-huanh{
+	white-space:nowrap!important;
+	text-overflow:ellipsis;
+}
+
+th.sorting_asc {
+	background-image: none!important;
+ }
+ .dataTable > thead > tr > th.sorting_asc:after {
+  content: none;
+  top: 4px;
+  display: none;
+  color: #fff;
+}
+.dataTable > thead > tr > th[class*=sort]:after {
+  float: right;
+  display: inline;
+  content: #fff;
+ display: none;
+  font-size: 13px;
+  font-weight: normal;
+}
+/*背景色  */
+/*   .dataTables_wrapper .row:first-child {
+ padding-top: 0px; 
+  padding-bottom: 0px;
+  background-color: #fff!important;
+  }
+.dataTables_wrapper .row:last-child {
+ border-bottom: none; 
+ 
+ background-color: #fff!important; 
+} */
+.btn{
+	border-radius:4px;
+}
+/* 换行  英文数字 */
+*{
+	word-wrap:break-word;
+	work-break:break-all;
+}
+.paddingtop7px{
+	padding-top:7px;
+}
+input{
+	border:1px solid #d5d5d5!important;
+}
+
+/* textarea,input[type="text"], input[type="password"], input[type="datetime"], input[type="datetime-local"], input[type="date"], input[type="month"], input[type="time"], input[type="week"], input[type="number"], input[type="email"], input[type="url"], input[type="search"], input[type="tel"], input[type="color"] {
+  border-radius: 0 !important;
+  color: #858585;
+  background-color: #ffffff;
+  border: 1px solid #d5d5d5;
+  padding: 8px 4px 6px;
+  font-size: 12px;
+  font-family: inherit;
+  -webkit-box-shadow: none !important;
+  box-shadow: none !important;
+  -webkit-transition-duration: 0.1s;
+  transition-duration: 0.1s;
+	resize: none;
+} */
+select {
+  padding: 0px 0px;
+  height: 34px;
+}
+select:focus{
+	padding: 0px 0px;
+	border:1px solid #dddddd;
+}
+.hg{
+	height: 20px;
+}
+
+.nav-search {
+  position: relative;
+  left:10px;
+  line-height: 24px;
+}
+
+pre {
+white-space: pre-wrap;
+word-wrap: break-word;
+}
+
+/* span.ui-button-text{
+	width:40px;
+} */
+#tabletreeGrid td{
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
