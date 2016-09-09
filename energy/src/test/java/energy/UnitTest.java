@@ -24,6 +24,7 @@ public class UnitTest {
 		long endTime = System.currentTimeMillis();
 		long total = endTime-startTime;
 		System.out.println("一共用时："+total);
+		System.out.println("liuxiaodong test");
 	}
 
 	@Test
